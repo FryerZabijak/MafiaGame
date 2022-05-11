@@ -1,34 +1,39 @@
 <!DOCTYPE html>
 <html lang="cs">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/x-icon" href="images/favicon/favicon.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>FryerZabijak Game</title>
 </head>
+
 <body>
     <div class="container">
 
 
-            <div class="zprava-black">
-                <div class="zprava-main">
+        <div class="zprava-black">
+            <div class="zprava-main">
 
-                    <div class="zprava-main-nadpis">
-                        <h1 id="zprava-nadpis">Zdarec kriminálníku</h1>
-                        <hr>
-                    </div>
+                <div class="zprava-main-nadpis">
+                    <h1 id="zprava-nadpis">Zdarec kriminálníku</h1>
+                    <hr>
+                </div>
 
-                    <p id="zprava-text">Chceš se stát nejrespektovanějším kriminálníkem v tomto zkorumpovaném městě?<br>Tak jsi na správném místě. Zadej, jak chceš aby si na ulici říkali a můžeš začít!<br></p>
-                    <img id="zprava-image" src="images/other/shop-pozadi.png">
-                    <div class="odpovedi">
-                        <button id="zpravaButton-ano">beru</button>
-                        <button id="zpravaButton-ne">neberu</button>
-                    </div>
+                <p id="zprava-text">Chceš se stát nejrespektovanějším kriminálníkem v tomto zkorumpovaném městě?<br>Tak
+                    jsi na správném místě. Zadej, jak chceš aby si na ulici říkali a můžeš začít!<br></p>
+                <img id="zprava-image" src="images/other/shop-pozadi.png">
+                <div class="odpovedi">
+                    <button id="zpravaButton-ano">beru</button>
+                    <button id="zpravaButton-ne">neberu</button>
                 </div>
             </div>
+        </div>
 
 
         <div class="seznam-mistnosti rozlozeni-layout">
@@ -38,7 +43,7 @@
                 <li><button id="klubButton">Klub</button></li>
                 <li><button id="postavaButton">Postava</button></li>
                 <li><button id="cernyTrhButton">Černý Trh</button></li>
-
+                <li><button id="bytButton">Byt</button></li>
             </ul>
         </div>
 
@@ -61,55 +66,59 @@
                 <img src="images/main-images/vecerka/vecerka-main.jpg" alt="obchod">
                 <div class="obchod-polozky">
                     <button id="pivoButton" class="obchodButton">$<label id="pivoButtonPrice">10</label> Pivo</button>
-                    <button id="pizzaButton" class="obchodButton">$<label id="pizzaButtonPrice">20</label> Pizza</button>
-                    <button id="kebabButton" class="obchodButton">$<label id="kebabButtonPrice">50</label> Kebab</button>
+                    <button id="pizzaButton" class="obchodButton">$<label id="pizzaButtonPrice">20</label>
+                        Pizza</button>
+                    <button id="kebabButton" class="obchodButton">$<label id="kebabButtonPrice">50</label>
+                        Kebab</button>
                 </div>
             </div>
 
             <div class="klub misto">
-                <label>Klub</label>
+                <label>Klub *zatím nefunkční*</label>
                 <img src="images/main-images/club/klub.jpg" alt="klub">
 
-                
+
                 <div id="klub-servirka" class="klub-clovek"></div>
 
 
                 <div id="klub-ind" class="klub-clovek"></div>
 
-                
+
                 <div id="klub-boss" class="klub-clovek"></div>
             </div>
 
             <div class="cernyTrh misto">
                 <label>Černý Trh</label>
                 <img src="images/main-images/black-market/black-market-main.jpg" alt="cerny trh">
-                 <div class="obchod-polozky">
-                     <button id="drogyButton"           class="obchodButton">$<label id="drogyButtonPrice">250</label> Drogy</button>
-                     <button id="energieButton"         class="obchodButton">$<label id="energieButtonPrice">350</label> Energie+</button>
-                     <button id="lepsiPenezenkyButton"  class="obchodButton">$<label id="lepsiPenezenkyButtonPrice">500</label> Lepší peněženky</button>    
+                <div class="obchod-polozky">
+                    <button id="drogyButton" class="obchodButton">$<label id="drogyButtonPrice">250</label>
+                        Drogy</button>
+                    <button id="energieButton" class="obchodButton">$<label id="energieButtonPrice">350</label>
+                        Energie+</button>
+                    <button id="lepsiPenezenkyButton" class="obchodButton">$<label
+                            id="lepsiPenezenkyButtonPrice">500</label> Lepší peněženky</button>
                 </div>
             </div>
 
             <div class="postava misto">
                 <div class="postava-info">
-                <label id="playersName">Pepyk</label><br>
-                <label class="jenomText">Úroveň - </label><label id="playersLevel">1</label>
+                    <label id="playersName">Kriminálník</label><br>
+                    <label class="jenomText">Úroveň - </label><label id="playersLevel">1</label>
                 </div>
-                    <div class="profile">
-                        <img src="images/other/profile.jpg" alt="profilovka" id="profilePicture">
-                    
-                        <p>Úroveň: </label id="profileZbran">1</label></p>
-                        <p>Zbraň: </label id="profileZbran">Pěsti</label></p>
-                        <p>Respekt: </label id="profileZbran">Žádný</label></p>
-                    </div>
+                <div class="profile">
+                    <img src="images/other/profile.jpg" alt="profilovka" id="profilePicture">
+
+                    <p>Zabitých nepřátel: <label id="zabitychNepratelLabel">1</label></p>
+                    <p>Vydělaných peněz: $<label id="vydelanychPenezLabel">1</label></p>
+                    <p>Projetých místností: <label id="projetychMistnostiLabel">1</label></p>
+                </div>
             </div>
 
-            <div class="obchod misto">
-                <label>Večerka</label>
-                <img src="images/main-images/vecerka/vecerka-main.jpg" alt="obchod">
-                <div class="obchod-polozky">
-
-                </div>
+            <div class="byt misto">
+                <label>Byt</label>
+                <img src="images/main-images/byt/trava-none.jpg" id="travaImg" alt="cerny trh">
+                <label id="travaCasLabel">45:00</label>
+                <button id="travaButton">Zasadit Trávu</button>
             </div>
 
         </div>
@@ -130,6 +139,9 @@
                     <li><progress id="levelProgress" value=10 max=100></progress>
                 </ul>
             </div>
+            <audio controls autoplay id="hudba" controlsList="nodownload noplaybackrate">
+                <source src="images/main-images/music/doomer.mp3">
+            </audio>
         </div>
 
     </div>
@@ -139,4 +151,5 @@
     <script src="tooltips.js" type="module"></script>
     <script src="ceny.js" type="module"></script>
 </body>
+
 </html>

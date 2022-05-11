@@ -232,6 +232,27 @@ body {
   accent-color: #ff5050;
 }
 
+.informace-div audio {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.informace-div audio::-webkit-media-controls-panel {
+  background-color: #9b3232;
+  color: #fff;
+  width: 50px;
+}
+
+.informace-div audio::-webkit-media-controls-current-time-display,
+.informace-div audio::-webkit-media-controls-time-remaining-display {
+  display: none;
+}
+
+.informace-div audio::-webkit-media-controls-timeline,
+.informace-div video::-webkit-media-controls-timeline {
+  display: none;
+}
+
 .misto {
   display: none;
   -webkit-box-orient: vertical;
@@ -301,6 +322,7 @@ body {
 
 .postava .profile img {
   height: 200px;
+  width: 200px;
   border: 2px solid #fff;
   text-align: center;
   margin: 0 auto;
@@ -404,5 +426,17 @@ body {
   bottom: 870px;
   min-height: 150px;
   width: 150px;
+}
+
+.byt #travaCasLabel {
+  position: relative;
+  bottom: 200px;
+  right: 50px;
+  background-color: #fbff00;
+  padding: 5px 10px;
+  border-radius: 1em;
+  visibility: hidden;
+  width: 120px;
+  text-align: center;
 }
 /*# sourceMappingURL=style.css.map */
