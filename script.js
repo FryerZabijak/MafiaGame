@@ -294,7 +294,7 @@ document.getElementById("bytButton").onclick = function() {
     if (typeof zasazenaTrava=="boolean" && zasazenaTrava==false) document.getElementById("travaCasLabel").style.visibility="hidden";
     
     let adresa = travaImg.src.split('/');
-    if(Number(zasazenaTrava)>0 && adresa[6]=="trava-none.jpg") {
+    if(Number(zasazenaTrava)>0 && adresa[adresa.length-1]=="trava-none.jpg") {
         ZacniPestovat();
     }
 }
