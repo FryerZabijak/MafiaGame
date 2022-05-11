@@ -1,0 +1,408 @@
+* {
+  padding: 0;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+  font-size: 28px;
+}
+
+body {
+  background-image: url("images/other/pozadi-bezbarev.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
+}
+
+.container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  border: 5px solid black;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: auto;
+  height: 850px;
+  max-height: -webkit-fit-content;
+  max-height: -moz-fit-content;
+  max-height: fit-content;
+  color: white;
+}
+
+.zprava-black {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.432);
+  min-height: 100vh;
+  min-width: 100%;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  text-align: center;
+  display: none;
+  z-index: 3;
+  pointer-events: all;
+}
+
+.zprava-black .zprava-main {
+  background-color: #c3c3c3;
+  width: 500px;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  padding: 20px;
+  border: 5px solid #585858;
+  margin: auto;
+  margin-top: 50px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 24px;
+}
+
+.zprava-black .zprava-main button {
+  margin-top: 10px;
+  width: 150px;
+}
+
+.zprava-black .zprava-main #zprava-image {
+  width: 350px;
+  border: 5px solid black;
+  padding: 0px;
+  margin: 0px;
+}
+
+.zprava-black .zprava-main .odpovedi {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+.seznam-mistnosti {
+  background-color: #949494;
+  background-image: url("images/other/mafia-pozadi.jpg");
+  background-position: 50%;
+  background-size: cover;
+}
+
+.seznam-mistnosti ul {
+  list-style-type: none;
+  padding: 5px 10px;
+}
+
+.seznam-mistnosti ul li button {
+  width: 180px;
+  margin-bottom: 5px;
+  background-color: rgba(110, 110, 110, 0.4);
+  -webkit-transition: .2s;
+  transition: .2s;
+  color: white;
+}
+
+.seznam-mistnosti ul li button:hover {
+  background-color: rgba(110, 110, 110, 0.6);
+}
+
+.seznam-mistnosti ul li button:active {
+  background-color: rgba(160, 160, 160, 0.8);
+}
+
+.main {
+  border-right: 5px solid black;
+  border-left: 5px solid black;
+  height: 100%;
+  background-color: #1b1b1b;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  font-weight: 800;
+  -webkit-text-stroke: 1px black;
+}
+
+.main-image {
+  width: -webkit-min-content;
+  width: -moz-min-content;
+  width: min-content;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  text-align: center;
+  color: #fff;
+}
+
+.main-image img {
+  border-top: 3px solid black;
+  border-bottom: 3px solid black;
+}
+
+.main-game ul {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  list-style-type: none;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 0;
+}
+
+.main-game ul li {
+  margin: 5px 10px;
+}
+
+.main-game ul button {
+  font-size: 32px;
+  text-align: center;
+  padding: 2px 10px;
+  width: 150px;
+}
+
+.main img {
+  width: 520px;
+  height: 686px;
+}
+
+.informace-div {
+  background-color: #949494;
+  width: 190px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  text-align: center;
+  background-image: url("images/min/dark-gray-texture.jpg");
+  background-size: cover;
+  background-position: 70%;
+}
+
+.informace-div ul {
+  list-style-type: none;
+}
+
+.informace-div ul li {
+  text-align: center;
+  width: 190px;
+}
+
+.informace-div .ukazatele #energieProgress {
+  width: 70%;
+  accent-color: #fbff00;
+}
+
+.informace-div .ukazatele #energieCislo {
+  position: relative;
+  top: 35px;
+  left: 27px;
+  font-size: 18px;
+  letter-spacing: 10px;
+  color: #000;
+  font-weight: 800;
+  -webkit-text-stroke: 1px #fff;
+}
+
+.informace-div .ukazatele #levelProgress {
+  width: 90%;
+  accent-color: #ff5050;
+}
+
+.misto {
+  display: none;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
+.misto .obchod-polozky {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 520px;
+}
+
+.misto .obchod-polozky button {
+  min-width: -webkit-fit-content;
+  min-width: -moz-fit-content;
+  min-width: fit-content;
+  width: 200px;
+  font-size: 30px;
+  margin: 5px;
+}
+
+.postava {
+  display: none;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
+.postava .postava-info {
+  width: 100%;
+  text-align: center;
+}
+
+.postava .postava-info .jenomText {
+  font-weight: 600;
+}
+
+.postava .profile {
+  width: 520px;
+  height: 500px;
+  background-color: #636363;
+  border-top: 3px solid black;
+  border-bottom: 3px solid black;
+  text-align: center;
+}
+
+.postava .profile img {
+  height: 200px;
+  border: 2px solid #fff;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.postava .profile p {
+  text-align: center;
+}
+
+.atributy {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+}
+
+.atributy ul {
+  list-style-type: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.atributy ul li {
+  font-size: 30px;
+  margin: 2px;
+  text-align: right;
+  margin-left: 10px;
+}
+
+.atributy ul li button {
+  height: 50px;
+  width: 50px;
+}
+
+.atribut-tooltip {
+  z-index: 2;
+  display: none;
+  position: absolute;
+  pointer-events: none;
+  background-color: black;
+  border: 2px solid;
+  padding: 10px 20px;
+  font-size: 18px;
+  width: 200px;
+  text-align: center;
+  margin-left: 300px;
+  -webkit-transition: 0.6s;
+  transition: 0.6s;
+}
+
+.atribut-tooltip label {
+  font-size: 18px;
+}
+
+.atribut-tooltip #atributyEnergie-tooltip {
+  margin-top: 50px;
+}
+
+.atribut-tooltip #atributyStesti-tooltip {
+  margin-top: 100px;
+}
+
+.atribut-tooltip #atributyVyjednavani-tooltip {
+  margin-top: 150px;
+}
+
+.klub-clovek {
+  min-height: 300px;
+  width: 200px;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+}
+
+.klub-clovek:nth-of-type(1) {
+  left: -175px;
+  bottom: 475px;
+}
+
+.klub-clovek:nth-of-type(2) {
+  left: -20px;
+  bottom: 700px;
+  min-height: 150px;
+  width: 100px;
+}
+
+.klub-clovek:nth-of-type(3) {
+  left: 115px;
+  bottom: 870px;
+  min-height: 150px;
+  width: 150px;
+}
+/*# sourceMappingURL=style.css.map */
