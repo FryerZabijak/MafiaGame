@@ -21,7 +21,7 @@ document.getElementById("hudba").volume=0.05;
 document.getElementById("hudba").currentTime = funkce.VygenerujRandomCislo(0,(41*60));
 document.getElementById("hudba").loop=true;
 
-let prices = new ceny.Ceny(250, 350, 500);
+let prices = new ceny.Ceny(400, 450, 500);
 let penizeOdDo = [1, 10];
 
 var vraceneHodnoty = nastaveni.NactiSave();
