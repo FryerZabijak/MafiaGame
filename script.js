@@ -346,7 +346,7 @@ document.getElementById("travaButton").onclick = function() {
         document.getElementById("travaCasLabel").style.visibility="hidden";
     }
     else if (typeof zasazenaTrava=="boolean" && zasazenaTrava==false) { //Tráva není zasazená
-        zasazenaTrava=60*45;
+        zasazenaTrava=60*10;
         ZacniPestovat();
     }
 }
