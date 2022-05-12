@@ -153,6 +153,7 @@ export function AktualizujStaty() {        //Aktualizuje staty a uloží cookies
         document.getElementById("levelLabel").innerText = level;
     }
     document.getElementById("levelProgress").value = Math.floor(xp * 2 / level);
+    penize = Math.ceil(penize);
     document.getElementById("penizeLabel").innerText = penize;
     //document.getElementById("energieLabel").innerText=energie;
     document.getElementById("energieCislo").innerHTML = energie + "%";
