@@ -1,7 +1,29 @@
+/*
+#### ##     ## ########   #######  ########  ######## ##    ## 
+ ##  ###   ### ##     ## ##     ## ##     ##    ##     ##  ##  
+ ##  #### #### ##     ## ##     ## ##     ##    ##      ####   
+ ##  ## ### ## ########  ##     ## ########     ##       ##    
+ ##  ##     ## ##        ##     ## ##   ##      ##       ##    
+ ##  ##     ## ##        ##     ## ##    ##     ##       ##    
+#### ##     ## ##         #######  ##     ##    ##       ##    
+*/
+
 import * as funkce from "./funkce.js";
 import * as nastaveni from "./nastaveni.js";
 import * as tooltips from "./tooltips.js";
 import * as ceny from "./ceny.js";
+
+/*
+
+########  ########   #######  ##     ## ######## ##    ## ##    ## ######## 
+##     ## ##     ## ##     ## ###   ### ##       ###   ## ###   ## ##       
+##     ## ##     ## ##     ## #### #### ##       ####  ## ####  ## ##       
+########  ########  ##     ## ## ### ## ######   ## ## ## ## ## ## ######   
+##        ##   ##   ##     ## ##     ## ##       ##  #### ##  #### ##       
+##        ##    ##  ##     ## ##     ## ##       ##   ### ##   ### ##       
+##        ##     ##  #######  ##     ## ######## ##    ## ##    ## ######## 
+*/
+
 
 let hlavniObrazek = document.getElementById("hlavniObrazek");
 let mistnostCislo = 1;
@@ -13,17 +35,60 @@ let xp = 0;
 let maxEnergie = energie;
 let vsechnyCeny;
 
-let zasazenaTrava=false;
+let zasazenaTrava = false;
+let interval;
+let minuty;
+let sekundy;
+const travaImg = document.getElementById("travaImg");
+const travaButton = document.getElementById("travaButton");
+
 let vydelanychPenez = 0;
 let zabitychNepratel = 0;
+let poskozeni = 1;
+let zbrane = ["Nic", "Baseballová Pálka", "Nůž", "Colt", "Samopal", "Brokovnice", "Útočná Puška", "Sniperka", "Raketomet", "Minigun", "Avadakedavra"];
+let zivotyNepratel;
+let zivoty;
+let zivotyNacteny = false;
 
-document.getElementById("hudba").volume=0.05;
-document.getElementById("hudba").currentTime = funkce.VygenerujRandomCislo(0,(41*60));
-document.getElementById("hudba").loop=true;
+const zivotyNepratelProgress = document.getElementById("zivotyNepratel");
+const zivotyNepratelMaxLabel = document.getElementById("zivotyNepratelMax");
+const zivotyNepratelNowLabel = document.getElementById("zivotyNepratelNow");
 
+/*
+##     ## ##     ## ########  ########     ###    
+##     ## ##     ## ##     ## ##     ##   ## ##   
+##     ## ##     ## ##     ## ##     ##  ##   ##  
+######### ##     ## ##     ## ########  ##     ## 
+##     ## ##     ## ##     ## ##     ## ######### 
+##     ## ##     ## ##     ## ##     ## ##     ## 
+##     ##  #######  ########  ########  ##     ## 
+*/
+document.getElementById("hudba").volume = 0.05;
+document.getElementById("hudba").currentTime = funkce.VygenerujRandomCislo(0, (41 * 60));
+document.getElementById("hudba").loop = true;
+
+/*
+
+ ######  ######## ##    ## ##    ##     ######  ######## ########  ##     ## 
+##    ## ##       ###   ##  ##  ##     ##    ##    ##    ##     ## ##     ## 
+##       ##       ####  ##   ####      ##          ##    ##     ## ##     ## 
+##       ######   ## ## ##    ##       ##          ##    ########  ######### 
+##       ##       ##  ####    ##       ##          ##    ##   ##   ##     ## 
+##    ## ##       ##   ###    ##       ##    ##    ##    ##    ##  ##     ## 
+ ######  ######## ##    ##    ##        ######     ##    ##     ## ##     ## 
+*/
 let prices = new ceny.Ceny(400, 450, 500);
 let penizeOdDo = [1, 10];
 
+/*
+ ######     ###    ##     ## ######## 
+##    ##   ## ##   ##     ## ##       
+##        ##   ##  ##     ## ##       
+ ######  ##     ## ##     ## ######   
+      ## #########  ##   ##  ##       
+##    ## ##     ##   ## ##   ##       
+ ######  ##     ##    ###    ######## 
+*/
 var vraceneHodnoty = nastaveni.NactiSave();
 if (!isNaN(vraceneHodnoty["energie"])) {
     mistnost = vraceneHodnoty["mistnost"];
@@ -36,30 +101,50 @@ if (!isNaN(vraceneHodnoty["energie"])) {
         maxEnergie = vraceneHodnoty["maxEnergie"];
     vsechnyCeny = String(vraceneHodnoty["vsechnyCeny"]).split('!');
     if (vsechnyCeny != null && !isNaN(vsechnyCeny)) {
-        console.log(vsechnyCeny);
         prices = new ceny.Ceny(vsechnyCeny[0], vsechnyCeny[1], vsechnyCeny[2]);
     }
 
-    if(vraceneHodnoty["vydelanychPenez"]!=null && !isNaN(vraceneHodnoty["vydelanychPenez"])) {
-    vydelanychPenez = vraceneHodnoty["vydelanychPenez"];
-    zabitychNepratel = vraceneHodnoty["zabitychnepratel"];
+    if (JeValidni(vraceneHodnoty["vydelanychPenez"])) {
+        vydelanychPenez = vraceneHodnoty["vydelanychPenez"];
+        zabitychNepratel = vraceneHodnoty["zabitychnepratel"];
     }
 
-    if(vraceneHodnoty["zasazenaTrava"]!=null && !isNaN(vraceneHodnoty["zasazenaTrava"])) zasazenaTrava = vraceneHodnoty["zasazenaTrava"];
+    if (JeValidni(vraceneHodnoty["zasazenaTrava"])) {
+        zasazenaTrava = vraceneHodnoty["zasazenaTrava"];
+        ZacniPestovat();
+    }
+    if (JeValidni(vraceneHodnoty["zivotyNepratel"])) {
+        zivotyNepratel = vraceneHodnoty["zivotyNepratel"]
+        zivoty = vraceneHodnoty["zivotyNepratelMax"];
+        zivotyNacteny = true;
+    }
 
-    console.log(zasazenaTrava);
+
 
     console.log("místnost: " + mistnost + "\nPeníze: " + penize + "\nEnergie: " + energie);
     document.getElementById("levelLabel").innerText = level;
-    console.log(maxEnergie);
     document.getElementById("energieProgress").max = maxEnergie;
 }
 else {
     tooltips.VypisZpravu("Zdarec kriminálníku", "Chceš se stát nejrespektovanějším kriminálníkem v tomto zkorumpovaném městě?<br>Tak jsi na správném místě.", "Začít", false, "images/other/uvodni-zprava.jpg", false);
 }
 
+function JeValidni(co) {
+    return (co != null && !isNaN(co));
+}
+
 AktualizujMistnost(false);
 AktualizujStaty();
+
+/*
+##     ## ########     ###     ######  ####    ######## ##       
+##     ## ##     ##   ## ##   ##    ##  ##        ##    ##       
+##     ## ##     ##  ##   ##  ##        ##        ##    ##       
+######### ########  ##     ## ##        ##        ##    ##       
+##     ## ##   ##   ######### ##        ##        ##    ##       
+##     ## ##    ##  ##     ## ##    ##  ##        ##    ##       
+##     ## ##     ## ##     ##  ######  ####       ##    ######## 
+*/
 
 //  HRACÍ TLAČÍTKA - START
 let hraciTlacitka = document.querySelectorAll(".hraci-tlacitko");
@@ -85,15 +170,16 @@ function Sebrat() {
     }
     else if (mistnost == 2) { //Prachy
         let vydelek = funkce.VygenerujRandomCislo(penizeOdDo[0], penizeOdDo[1]);
-        nastaveni.UlozitCookies("vydelek",vydelek);
+        nastaveni.UlozitCookies("vydelek", vydelek);
         penize += vydelek;
-        vydelanychPenez+=vydelek;
+        vydelanychPenez += vydelek;
         xp += 2;
     }
     else if (mistnost == 3) { //Nepřítel
         energie -= 20;
     }
-    AktualizujMistnost(true);
+
+    if (zivotyNepratel <= 0 || isNaN(zivotyNepratel)) AktualizujMistnost(true);
 }
 
 function Projit() {
@@ -107,7 +193,7 @@ function Projit() {
     else if (mistnost == 3) { //Nepřítel
         energie -= 20;
     }
-    AktualizujMistnost(true);
+    if (zivotyNepratel <= 0 || isNaN(zivotyNepratel)) AktualizujMistnost(true);
 }
 
 function Utocit() {
@@ -118,18 +204,31 @@ function Utocit() {
         energie -= 15;
     }
     else if (mistnost == 3) { //Nepřítel
-        energie -= 10;
-        if (funkce.VygenerujRandomCislo(1, 3) == 2) {
-            let vydelek = funkce.VygenerujRandomCislo(penizeOdDo[0]/5, penizeOdDo[1]/5);
-            nastaveni.UlozitCookies("vydelek",vydelek);
-            penize += vydelek;
-            vydelanychPenez+=vydelek;
+        zivotyNepratel -= poskozeni;
+        zivotyNepratelProgress.value = zivotyNepratel;
+        zivotyNepratelNowLabel.innerText = zivotyNepratel;
+        nastaveni.UlozitCookies("zivotyNepratel", zivotyNepratel);
+        if (zivotyNepratel <= 0) {
+            document.getElementById("zivotyNepratelP").style.visibility = "hidden";
+            zivotyNepratelProgress.style.visibility = "hidden";
+            zivotyNepratel = 0;
         }
+        energie -= 10;
         xp += 2;
         zabitychNepratel++;
-        nastaveni.UlozitCookies("zabitychNepratel",zabitychNepratel);
+        nastaveni.UlozitCookies("zabitychNepratel", zabitychNepratel);
     }
-    AktualizujMistnost(true);
+
+    if (zivotyNepratel <= 0 || isNaN(zivotyNepratel)) { 
+        AktualizujMistnost(true);
+    
+        if (funkce.VygenerujRandomCislo(1, 3) == 2) {
+            let vydelek = funkce.VygenerujRandomCislo(penizeOdDo[0] / 2, penizeOdDo[1] / 2);
+            nastaveni.UlozitCookies("vydelek", vydelek);
+            penize += vydelek;
+            vydelanychPenez += vydelek;
+        }
+    }
 }
 //  HRACÍ TLAČÍTKA - KONEC
 
@@ -142,6 +241,16 @@ buttons.forEach(btn => {
     })
 })
 
+/*
+   ###    ##    ## ########     ######  ########    ###    ########  ######  
+  ## ##   ##   ##     ##       ##    ##    ##      ## ##      ##    ##    ## 
+ ##   ##  ##  ##      ##       ##          ##     ##   ##     ##    ##       
+##     ## #####       ##        ######     ##    ##     ##    ##     ######  
+######### ##  ##      ##             ##    ##    #########    ##          ## 
+##     ## ##   ##     ##       ##    ##    ##    ##     ##    ##    ##    ## 
+##     ## ##    ##    ##        ######     ##    ##     ##    ##     ######  
+*/
+
 export function AktualizujStaty() {        //Aktualizuje staty a uloží cookies
     //Aktualizace statů
     if (energie < 0) energie = 0;
@@ -153,7 +262,7 @@ export function AktualizujStaty() {        //Aktualizuje staty a uloží cookies
         document.getElementById("levelLabel").innerText = level;
     }
     document.getElementById("levelProgress").value = Math.floor(xp * 2 / level);
-    penize = Math.ceil(penize);
+    penize = Math.round(penize);
     document.getElementById("penizeLabel").innerText = penize;
     //document.getElementById("energieLabel").innerText=energie;
     document.getElementById("energieCislo").innerHTML = energie + "%";
@@ -167,6 +276,17 @@ export function AktualizujStaty() {        //Aktualizuje staty a uloží cookies
     nastaveni.UlozitCookies("level", level);
     nastaveni.UlozitCookies("xp", xp);
 }
+
+/*
+   ###    ##    ## ########    ########   #######   #######  ##     ## 
+  ## ##   ##   ##     ##       ##     ## ##     ## ##     ## ###   ### 
+ ##   ##  ##  ##      ##       ##     ## ##     ## ##     ## #### #### 
+##     ## #####       ##       ########  ##     ## ##     ## ## ### ## 
+######### ##  ##      ##       ##   ##   ##     ## ##     ## ##     ## 
+##     ## ##   ##     ##       ##    ##  ##     ## ##     ## ##     ## 
+##     ## ##    ##    ##       ##     ##  #######   #######  ##     ## 
+*/
+
 
 export function AktualizujMistnost(rozhodnuti) {//True - Aktualizuje NOVOU místnost; False - pouze znovu načte obrázek
     let idMistnosti;
@@ -186,14 +306,42 @@ export function AktualizujMistnost(rozhodnuti) {//True - Aktualizuje NOVOU míst
         hlavniObrazek.src = "images/main-images/level01/Prachy2.jpg";
     }
     else if ((idMistnosti == 6) || (!rozhodnuti && mistnost == 3)) {   //Nepřítel
+
+        let algoritmusZivotyNepratel = 1 + (Math.floor(level / 3));
+
+        if (zivotyNacteny == false) {
+            zivoty = funkce.VygenerujRandomCislo(Math.round(algoritmusZivotyNepratel / 3), algoritmusZivotyNepratel);
+        }
+        zivotyNacteny = false;
+        nastaveni.UlozitCookies("zivotyNepratelMax", zivoty);
+
+        if (nastaveni.NactiCookies("zivotyNepratel") == null || zivotyNepratel <= 0)
+            zivotyNepratel = zivoty;
+
+        document.getElementById("zivotyNepratelP").style.visibility = "visible";
+        zivotyNepratelMaxLabel.innerText = zivoty;
+        zivotyNepratelNowLabel.innerText = zivotyNepratel;
+        zivotyNepratelProgress.max = zivoty;
+        zivotyNepratelProgress.value = zivotyNepratel;
+        zivotyNepratelProgress.style.visibility = "visible";
+
         mistnost = 3;
         hlavniObrazek.src = "images/main-images/level01/Nepritel2.jpg";
     }
 }
 
+/*
+ #######  ########   ######  ##     ##  #######  ########  
+##     ## ##     ## ##    ## ##     ## ##     ## ##     ## 
+##     ## ##     ## ##       ##     ## ##     ## ##     ## 
+##     ## ########  ##       ######### ##     ## ##     ## 
+##     ## ##     ## ##       ##     ## ##     ## ##     ## 
+##     ## ##     ## ##    ## ##     ## ##     ## ##     ## 
+ #######  ########   ######  ##     ##  #######  ########  
+ */
 //Cestování
 let multiplier;
-let vsechnyMista = [".main-game", ".klub", ".obchod", ".postava", ".cernyTrh",".byt"];
+
 document.getElementById("obchodButton").onclick = function () {//OBCHOD
     JdiNa(".obchod", "flex");
     multiplier = 1 + ((Math.floor(mistnostCislo / 50)) / 10);
@@ -203,10 +351,10 @@ document.getElementById("obchodButton").onclick = function () {//OBCHOD
     //seznamMistnosti.style.backgroundImage = "url(images/other/shop-pozadi.png)";
 }
 
+
 let obchodTlacitka = document.querySelectorAll(".obchodButton");
 obchodTlacitka.forEach(btn => {
     btn.addEventListener('click', function () {
-        console.log(multiplier);
 
         if (btn.id == "pivoButton") {
             if (penize >= 10 * multiplier && energie < maxEnergie) {
@@ -256,6 +404,21 @@ obchodTlacitka.forEach(btn => {
                 energie = 750;
             }
         }
+        else if (btn.id == "koupitZbranButton") {
+            let cenaZbrane = ((poskozeni * 300) - 150); 
+            if (penize >= cenaZbrane) {
+                penize -= cenaZbrane;
+                poskozeni++;
+                cenaZbrane = ((poskozeni * 300) - 150);
+                if (poskozeni<zbrane.length) {
+                document.getElementById("nazevZbraneLabel").innerText=zbrane[poskozeni];
+                document.getElementById("zbranCenaLabel").innerText=cenaZbrane;
+                }
+                else {
+                    document.getElementById("koupitZbranButton").style.visibility="hidden";
+                }
+            }
+        }
 
         nastaveni.UlozitCookies("ceny", prices.drogy + "!" + prices.energie + "!" + prices.lepsiPenezenky);
 
@@ -265,22 +428,60 @@ obchodTlacitka.forEach(btn => {
     })
 })
 
+/*
+##     ## ##       ####  ######  ######## 
+##     ## ##        ##  ##    ## ##       
+##     ## ##        ##  ##       ##       
+##     ## ##        ##  ##       ######   
+##     ## ##        ##  ##       ##       
+##     ## ##        ##  ##    ## ##       
+ #######  ######## ####  ######  ######## 
+*/
+
 document.getElementById("uliceButton").onclick = function () {
     JdiNa(".main-game", "block");
     //seznamMistnosti.style.backgroundImage = "url(images/other/mafia-pozadi.jpg)";
 }
 
+/*
+##    ## ##       ##     ## ########  
+##   ##  ##       ##     ## ##     ## 
+##  ##   ##       ##     ## ##     ## 
+#####    ##       ##     ## ########  
+##  ##   ##       ##     ## ##     ## 
+##   ##  ##       ##     ## ##     ## 
+##    ## ########  #######  ########  
+*/
+
 document.getElementById("klubButton").onclick = function () {
     JdiNa(".klub", "flex");
 }
+/*
+########   #######   ######  ########    ###    ##     ##    ###    
+##     ## ##     ## ##    ##    ##      ## ##   ##     ##   ## ##   
+##     ## ##     ## ##          ##     ##   ##  ##     ##  ##   ##  
+########  ##     ##  ######     ##    ##     ## ##     ## ##     ## 
+##        ##     ##       ##    ##    #########  ##   ##  ######### 
+##        ##     ## ##    ##    ##    ##     ##   ## ##   ##     ## 
+##         #######   ######     ##    ##     ##    ###    ##     ## 
+*/
 
 document.getElementById("postavaButton").onclick = function () {
     JdiNa(".postava", "flex");
-    document.getElementById("playersLevel").innerText=level;
-    document.getElementById("zabitychNepratelLabel").innerText=zabitychNepratel;
-    document.getElementById("vydelanychPenezLabel").innerText=vydelanychPenez;
-    document.getElementById("projetychMistnostiLabel").innerText=mistnostCislo;
+    document.getElementById("playersLevel").innerText = level;
+    document.getElementById("zabitychNepratelLabel").innerText = zabitychNepratel;
+    document.getElementById("vydelanychPenezLabel").innerText = vydelanychPenez;
+    document.getElementById("projetychMistnostiLabel").innerText = mistnostCislo;
 }
+/*
+ ######      ######## ########  ##     ## 
+##    ##        ##    ##     ## ##     ## 
+##              ##    ##     ## ##     ## 
+##              ##    ########  ######### 
+##              ##    ##   ##   ##     ## 
+##    ## ###    ##    ##    ##  ##     ## 
+ ######  ###    ##    ##     ## ##     ## 
+*/
 
 document.getElementById("cernyTrhButton").onclick = function () {
     JdiNa(".cernyTrh", "flex");
@@ -288,98 +489,124 @@ document.getElementById("cernyTrhButton").onclick = function () {
     document.getElementById("energieButtonPrice").innerText = prices.energie;
     document.getElementById("drogyButtonPrice").innerText = prices.drogy;
 }
+/*
+########  ##    ## ######## 
+##     ##  ##  ##     ##    
+##     ##   ####      ##    
+########     ##       ##    
+##     ##    ##       ##    
+##     ##    ##       ##    
+########     ##       ##    
+*/
 
-document.getElementById("bytButton").onclick = function() {
+
+
+document.getElementById("bytButton").onclick = function () {     //Jít do bytu
     JdiNa(".byt", "flex");
 
-    if (typeof zasazenaTrava=="boolean" && zasazenaTrava==false) document.getElementById("travaCasLabel").style.visibility="hidden";
-    
-    let adresa = travaImg.src.split('/');
-    if(Number(zasazenaTrava)>0 && adresa[adresa.length-1]=="trava-none.jpg") {
-        ZacniPestovat();
+    if (typeof zasazenaTrava == "boolean" && zasazenaTrava == false) document.getElementById("travaCasLabel").style.visibility = "hidden";    //Pokud není zasazená tráva, nezobrazí se čas
+
+    let adresa = travaImg.src.split('/');       //Cesta k SRC obrázku
+    if (typeof zasazenaTrava != "boolean" && adresa[adresa.length - 1] == "trava-none.jpg") {  //Pokud scr obrázku je žádná trává a přitom by se měla pěstovat
+        ZacniPestovat();    //začíná se pěstovat
     }
 }
 
-const travaImg = document.getElementById("travaImg");
-const travaButton = document.getElementById("travaButton");
+document.getElementById("bytButton").addEventListener("mouseover", function () {      //Najede se na byt myší, zobrazí se čas pěstování
+    if (typeof zasazenaTrava == "number" && minuty>0) {
+        document.getElementById("bytButton").innerText = minuty + ":" + sekundy;
+        if (sekundy < 10) document.getElementById("bytButton").innerText = minuty + ":0" + sekundy;
+        interval = setInterval(function () {
+            document.getElementById("bytButton").innerText = minuty + ":" + sekundy;
+            if (sekundy < 10) document.getElementById("bytButton").innerText = minuty + ":0" + sekundy;
 
-let interval;
-let minuty;
-let sekundy;
-
-document.getElementById("bytButton").addEventListener("mouseover",function() {
-    if(typeof zasazenaTrava=="number") {
-        console.log("JOJO");
-        document.getElementById("bytButton").innerText=minuty+":"+sekundy;
-        if (sekundy<10) document.getElementById("bytButton").innerText=minuty+":0"+sekundy;
-        interval = setInterval(function() {
-            document.getElementById("bytButton").innerText=minuty+":"+sekundy;
-        if (sekundy<10) document.getElementById("bytButton").innerText=minuty+":0"+sekundy;
-
-        if(minuty<0) {
-            document.getElementById("bytButton").innerText="Hotovo";
-            clearInterval(interval);
-        }
-        },1000);
+            if (minuty < 0) {
+                document.getElementById("bytButton").innerText = "Hotovo";
+                clearInterval(interval);
+            }
+        }, 1000);
     }
 })
 
-document.getElementById("bytButton").addEventListener("mouseout",function() {
+document.getElementById("bytButton").addEventListener("mouseout", function () {       //Zmizne čas pěstování pokud myš pujde pryč
     clearInterval(interval);
-    document.getElementById("bytButton").innerText="Byt";
+    document.getElementById("bytButton").innerText = "Byt";
 
 
 })
 
 
 
-document.getElementById("travaButton").onclick = function() {
-    console.log(zasazenaTrava);
-
-    if (typeof zasazenaTrava=="number" && zasazenaTrava==0) {   //Tráva je vyrostlá
-        travaImg.src="images/main-images/byt/trava-none.jpg";
-        travaButton.innerText="Zasadit Trávu";
-        penize+=level*50;
-        console.log("EHOY");
-        AktualizujStaty();
-        zasazenaTrava=false;
-        document.getElementById("travaCasLabel").style.visibility="hidden";
+document.getElementById("travaButton").onclick = function () {       //Stisknutí na pěstování/sklizení trávy
+    if (typeof zasazenaTrava == "number" && zasazenaTrava <= 0) {   //Tráva je vyrostlá
+        travaImg.src = "images/main-images/byt/trava-none.jpg";   //Nastaví se obrázek na ŽÁDNÁ TRÁVA
+        travaButton.innerText = "Zasadit Trávu";                  //Změní se text tlačítka "Zasadit Trávu"
+        penize += level * 50;                                       //Přibudou peníze v hodnotě 50*LEVEL
+        AktualizujStaty();                                      //Aktualizace Statů
+        zasazenaTrava = false;                                    //Tráva pestovani je false
+        document.getElementById("travaCasLabel").style.visibility = "hidden"; //Zmizne čas
+        nastaveni.UlozitCookies("zasazenaTrava", zasazenaTrava);
     }
-    else if (typeof zasazenaTrava=="boolean" && zasazenaTrava==false) { //Tráva není zasazená
-        zasazenaTrava=60*10;
+    else if (typeof zasazenaTrava == "boolean" && zasazenaTrava == false) { //Tráva není zasazená
+        zasazenaTrava = 60 * 10;                                            //10 Minut pěstování
         ZacniPestovat();
     }
 }
 
 function ZacniPestovat() {
-    let puvodniCas = zasazenaTrava;
-    minuty = Math.floor(zasazenaTrava/60);
-    sekundy = zasazenaTrava%60;
-    document.getElementById("travaCasLabel").style.visibility="visible";
-    travaImg.src="images/main-images/byt/trava-start.jpg";
-    travaButton.innerText="Sklidit Trávu";
-    let interval = setInterval(function() {
-        document.getElementById("travaCasLabel").innerText=minuty+":"+sekundy;
-        if (sekundy<10) document.getElementById("travaCasLabel").innerText=minuty+":0"+sekundy;
+    //let puvodniCas = zasazenaTrava;         //Uložíme si původní čas (sekundy), aby jsme věděli v jaké fázi růstu tráva je
+    minuty = Math.floor(zasazenaTrava / 60);  //  Sekundy/60=minuty
+    sekundy = zasazenaTrava % 60;             // Zbytek jsou sekundy
+    document.getElementById("travaCasLabel").style.visibility = "visible";        //Zobrazí se časovač
+    travaImg.src = "images/main-images/byt/trava-start.jpg";                      //Obrázek startu pěstování
+    travaButton.innerText = "Sklidit Trávu";                                      //Text tlačítka - Sklidit trávu
+    let interval = setInterval(function () {
+        document.getElementById("travaCasLabel").innerText = minuty + ":" + sekundy;  //Aktualizace časovače
+        if (sekundy < 10) document.getElementById("travaCasLabel").innerText = minuty + ":0" + sekundy; //Pokud v sekundách je jenom jedno číslo, tak místo toho aby se zobrazilo např(5:7), tak se zobrazí (5:07)
 
-        sekundy--;
-        if (sekundy<=0) {
-            sekundy=59;
+        sekundy--;                  //Odečet sekundy za jeden interval
+        if (sekundy < 0) {            //Pokud sekundy jsou pod nulu tak se nastaví na 59 a odečte se jedna minuta
+            sekundy = 59;
             minuty--;
         }
-      zasazenaTrava--;
-        if(zasazenaTrava<(puvodniCas)/2) travaImg.src="images/main-images/byt/trava-half.jpg";
-        if(zasazenaTrava<=0) 
+        zasazenaTrava--;              //Sekunda pro pěstování trávy
+        if (zasazenaTrava < ((60 * 10) / 2)) travaImg.src = "images/main-images/byt/trava-half.jpg";  //Pokud pěstování je v polovině, změní se obrázek na větší trávu
+        if (zasazenaTrava <= 0)            //Pokud tráva dorostla
         {
-            document.getElementById("travaCasLabel").innerText="00:00";
-            travaImg.src="images/main-images/byt/trava-full.jpg";
-            clearInterval(interval);
+            document.getElementById("travaCasLabel").innerText = "00:00";     //Čas fixně na 00:00
+            travaImg.src = "images/main-images/byt/trava-full.jpg";           //Full obrázek vyrostlé trávy
+            clearInterval(interval);                                        //Interval skončí
         }
-        nastaveni.UlozitCookies("zasazenaTrava",zasazenaTrava);
-    },1000)
+        nastaveni.UlozitCookies("zasazenaTrava", zasazenaTrava);             //Uložíme do cookies čas pěstování trávy
+    }, 1000)
+}
+
+/*
+######## ########  ########     ###    ##    ## ######## 
+     ##  ##     ## ##     ##   ## ##   ###   ## ##       
+    ##   ##     ## ##     ##  ##   ##  ####  ## ##       
+   ##    ########  ########  ##     ## ## ## ## ######   
+  ##     ##     ## ##   ##   ######### ##  #### ##       
+ ##      ##     ## ##    ##  ##     ## ##   ### ##       
+######## ########  ##     ## ##     ## ##    ## ######## 
+*/
+
+document.getElementById("prodejZbraniButton").onclick = function () {
+    JdiNa(".prodejnaZbrani", "flex");
 }
 
 
+/*
+ ######  ########  ######  ########  #######  ##     ##    ###    ##    ## 
+##    ## ##       ##    ##    ##    ##     ## ##     ##   ## ##   ###   ## 
+##       ##       ##          ##    ##     ## ##     ##  ##   ##  ####  ## 
+##       ######    ######     ##    ##     ## ##     ## ##     ## ## ## ## 
+##       ##             ##    ##    ##     ##  ##   ##  ######### ##  #### 
+##    ## ##       ##    ##    ##    ##     ##   ## ##   ##     ## ##   ### 
+ ######  ########  ######     ##     #######     ###    ##     ## ##    ## 
+*/
+
+let vsechnyMista = [".main-game", ".klub", ".obchod", ".postava", ".cernyTrh", ".byt", ".prodejnaZbrani"];
 function JdiNa(kam, styl) {
     console.log("jede se do " + kam);
     vsechnyMista.forEach(misto => {

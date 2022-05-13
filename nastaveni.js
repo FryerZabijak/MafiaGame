@@ -18,6 +18,9 @@ export function NactiSave() {
         let vydelanychPenez = NactiCookies("vydelanychPenez");
         let zabitychNepratel = NactiCookies("zabitychNepratel");
 
+        let zivotyNepratel = NactiCookies("zivotyNepratel");
+        let zivotyNepratelMax = NactiCookies("zivotyNepratelMax");
+
 
         var ulozeneHodnoty = {
         "mistnost":mistnost,
@@ -31,6 +34,9 @@ export function NactiSave() {
         "zasazenaTrava":zasazenaTrava,
         "vydelanychPenez":vydelanychPenez,
         "zabitychNepratel":zabitychNepratel,
+        "zivotyNepratel":zivotyNepratel,
+        "zivotyNepratelMax":zivotyNepratelMax,
+
     };
         return ulozeneHodnoty;
     }

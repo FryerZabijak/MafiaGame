@@ -5,8 +5,9 @@ export class Ceny{
         this.energie = energie;
         this.lepsiPenezenky = lepsiPenezenky;
     }
+
+    vratHodnoty(){
+        return drogy+"!"+energie+"!"+lepsiPenezenky;
+    }
 }
 
-function vratHodnoty(){
-    return drogy+"!"+energie+"!"+lepsiPenezenky;
-}

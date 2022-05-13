@@ -43,7 +43,9 @@
                 <li><button id="klubButton">Klub</button></li>
                 <li><button id="postavaButton">Postava</button></li>
                 <li><button id="cernyTrhButton">Černý Trh</button></li>
+                <li><button id="prodejZbraniButton">Zbraně</button></li>
                 <li><button id="bytButton">Byt</button></li>
+
             </ul>
         </div>
 
@@ -52,6 +54,7 @@
             <div class="main-game">
                 <div class="main-image">
                     <label id="mistnostPocetLabel">Lokace 1</label>
+
                     <img id="hlavniObrazek" src="images/main-images/level01/Prazdno2.jpg" alt="Prázdná místnost">
                 </div>
                 <ul class="hraci-tlacitka">
@@ -59,6 +62,8 @@
                     <li><button id="projitButton" class="hraci-tlacitko">Projít</button></li>
                     <li><button id="utocitButton" class="hraci-tlacitko">Útočit</button></li>
                 </ul>
+                <p id="zivotyNepratelP"><label id="zivotyNepratelNow">1</label> / <label id="zivotyNepratelMax">1</label> HP</p>
+                <progress id="zivotyNepratel" value="100" max="100"></progress>
             </div>
 
             <div class="obchod misto">
@@ -119,6 +124,12 @@
                 <img src="images/main-images/byt/trava-none.jpg" id="travaImg" alt="cerny trh">
                 <label id="travaCasLabel">10:00</label>
                 <button id="travaButton">Zasadit Trávu</button>
+            </div>
+
+            <div class="prodejnaZbrani misto">
+                <label>Prodejna Zbraní</label>
+                <img src="images/main-images/gun-shop/gun-shop-main.jpg" id="travaImg" alt="cerny trh">
+                <button id="koupitZbranButton" class="obchodButton"><label id="nazevZbraneLabel">Baseballová Pálka</label> $<label id="zbranCenaLabel">150</label></button>
             </div>
 
         </div>
