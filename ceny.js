@@ -1,3 +1,6 @@
+let drogy;
+let energie;
+let lepsiPenezenky;
 
 export class Ceny{
     constructor(drogy, energie, lepsiPenezenky) {
@@ -6,8 +9,10 @@ export class Ceny{
         this.lepsiPenezenky = lepsiPenezenky;
     }
 
-    vratHodnoty(){
-        return drogy+"!"+energie+"!"+lepsiPenezenky;
-    }
+
+}
+
+export function vratHodnoty(){
+    return drogy+"!"+energie+"!"+lepsiPenezenky;
 }
 

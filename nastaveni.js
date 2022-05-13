@@ -1,3 +1,4 @@
+import * as ceny from "./ceny.js";
 import * as funkce from "./funkce.js";
 import * as script from "./script.js";
 
@@ -16,10 +17,15 @@ export function NactiSave() {
         let zasazenaTrava = NactiCookies("zasazenaTrava");
 
         let vydelanychPenez = NactiCookies("vydelanychPenez");
+        console.log(document.cookie);
         let zabitychNepratel = NactiCookies("zabitychNepratel");
+        console.log(zabitychNepratel);
 
         let zivotyNepratel = NactiCookies("zivotyNepratel");
         let zivotyNepratelMax = NactiCookies("zivotyNepratelMax");
+
+        let penizeOdDo = NactiCookies("penizeOdDo");
+        let poskozeni = NactiCookies("poskozeni");
 
 
         var ulozeneHodnoty = {
@@ -36,6 +42,9 @@ export function NactiSave() {
         "zabitychNepratel":zabitychNepratel,
         "zivotyNepratel":zivotyNepratel,
         "zivotyNepratelMax":zivotyNepratelMax,
+        "penizeOdDo":penizeOdDo,
+        "prices":penizeOdDo,
+        "poskozeni":poskozeni,
 
     };
         return ulozeneHodnoty;

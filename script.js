@@ -28,7 +28,7 @@ import * as ceny from "./ceny.js";
 let hlavniObrazek = document.getElementById("hlavniObrazek");
 let mistnostCislo = 1;
 let mistnost = 1;
-let penize = 20;
+let penize = 20000;
 let energie = 100;
 let level = 1;
 let xp = 0;
@@ -42,7 +42,8 @@ let sekundy;
 const travaImg = document.getElementById("travaImg");
 const travaButton = document.getElementById("travaButton");
 
-let vydelanychPenez = 0;
+let penizeOdDo = [1, 10];
+let vydelanychPenez = Number(0);
 let zabitychNepratel = 0;
 let poskozeni = 1;
 let zbrane = ["Nic", "Baseballová Pálka", "Nůž", "Colt", "Samopal", "Brokovnice", "Útočná Puška", "Sniperka", "Raketomet", "Minigun", "Avadakedavra"];
@@ -65,28 +66,30 @@ const zivotyNepratelNowLabel = document.getElementById("zivotyNepratelNow");
 */
 
 var loader = document.getElementById("loader");
+var zprava = false;
+if (nastaveni.NactiCookies("loader")) loader.style.display = "none";
 
-if (nastaveni.NactiCookies("loader")) loader.style.display="none";
-
-window.addEventListener("load",function() {
+window.addEventListener("load", function () {
     var imgs = document.querySelectorAll(".loader-loading-img");
     imgs.forEach(img => {
-        img.style.display="none";
+        img.style.display = "none";
     })
-    document.getElementById("playButton").style.display="block";
-    document.querySelector(".loader-loading").style.backgroundColor="#000000";
+    document.getElementById("playButton").style.display = "block";
+    document.querySelector(".loader-loading").style.backgroundColor = "#000000";
 })
 
-document.getElementById("playButton").onclick = function() {
-    loader.style.animation="HideOpacity 3s ease-in forwards";
-    setTimeout(function() {
-    loader.style.display="none";
-    nastaveni.UlozitCookiesNaCas("loader",true,1);
-    console.log(nastaveni.NactiCookies("loader"));
-    if (isNaN(vraceneHodnoty["energie"])) {
-        tooltips.VypisZpravu("Zdarec kriminálníku", "Chceš se stát nejrespektovanějším kriminálníkem v tomto zkorumpovaném městě?<br>Tak jsi na správném místě.", "Začít", false, "images/other/uvodni-zprava.jpg", false);
+document.getElementById("playButton").onclick = function () {
+    loader.style.animation = "HideOpacity 1.5s ease-in forwards";
+    if (zprava == false) {
+        setTimeout(function () {
+            loader.style.display = "none";
+            nastaveni.UlozitCookiesNaCas("loader", true, 1);
+            if (isNaN(vraceneHodnoty["energie"])) {
+                tooltips.VypisZpravu("Zdarec kriminálníku", "Chceš se stát nejrespektovanějším kriminálníkem v tomto zkorumpovaném městě?<br>Tak jsi na správném místě.", "Začít", false, "images/other/uvodni-zprava.jpg", false);
+            }
+        }, 1500);
+        zprava = true;
     }
-},3000);
 }
 
 /*
@@ -113,8 +116,8 @@ document.getElementById("hudba").loop = true;
 ##    ## ##       ##   ###    ##       ##    ##    ##    ##    ##  ##     ## 
  ######  ######## ##    ##    ##        ######     ##    ##     ## ##     ## 
 */
-let prices = new ceny.Ceny(400, 450, 500);
-let penizeOdDo = [1, 10];
+let prices = new ceny.Ceny(300, 350, 400);
+
 
 /*
  ######     ###    ##     ## ######## 
@@ -139,10 +142,14 @@ if (!isNaN(vraceneHodnoty["energie"])) {
     if (vsechnyCeny != null && !isNaN(vsechnyCeny)) {
         prices = new ceny.Ceny(vsechnyCeny[0], vsechnyCeny[1], vsechnyCeny[2]);
     }
-
+    console.log(vraceneHodnoty["vydelanychPenez"]);
     if (JeValidni(vraceneHodnoty["vydelanychPenez"])) {
-        vydelanychPenez = vraceneHodnoty["vydelanychPenez"];
-        zabitychNepratel = vraceneHodnoty["zabitychnepratel"];
+        vydelanychPenez = Number(vraceneHodnoty["vydelanychPenez"]);
+    }
+    console.log(vraceneHodnoty["zabitychNepratel"]);
+    if (JeValidni(vraceneHodnoty["zabitychNepratel"])) {
+        zabitychNepratel = vraceneHodnoty["zabitychNepratel"];
+        console.log(zabitychNepratel);
     }
 
     if (JeValidni(vraceneHodnoty["zasazenaTrava"])) {
@@ -155,7 +162,15 @@ if (!isNaN(vraceneHodnoty["energie"])) {
         zivotyNacteny = true;
     }
 
+    if (vraceneHodnoty["penizeOdDo"] != null) {
+        let prachy = vraceneHodnoty["penizeOdDo"].split('!');
+        penizeOdDo[0] = prachy[0];
+        penizeOdDo[1] = prachy[1];
+    }
 
+    if (JeValidni(vraceneHodnoty["poskozeni"])) {
+        poskozeni = vraceneHodnoty["poskozeni"];
+    }
 
     console.log("místnost: " + mistnost + "\nPeníze: " + penize + "\nEnergie: " + energie);
     document.getElementById("levelLabel").innerText = level;
@@ -164,7 +179,7 @@ if (!isNaN(vraceneHodnoty["energie"])) {
 
 
 function JeValidni(co) {
-    return (co != null && !isNaN(co));
+    return (co != null && !isNaN(co) && typeof co != "undefined");
 }
 
 AktualizujMistnost(false);
@@ -203,11 +218,11 @@ function Sebrat() {
         energie -= 10;
     }
     else if (mistnost == 2) { //Prachy
-        let vydelek = funkce.VygenerujRandomCislo(penizeOdDo[0], penizeOdDo[1]);
-        nastaveni.UlozitCookies("vydelek", vydelek);
+        let vydelek = funkce.VygenerujRandomCislo(Number(penizeOdDo[0]), penizeOdDo[1]);
         penize += vydelek;
         vydelanychPenez += vydelek;
         xp += 2;
+        nastaveni.UlozitCookies("vydelanychPenez", vydelanychPenez);
     }
     else if (mistnost == 3) { //Nepřítel
         energie -= 20;
@@ -253,14 +268,14 @@ function Utocit() {
         nastaveni.UlozitCookies("zabitychNepratel", zabitychNepratel);
     }
 
-    if (zivotyNepratel <= 0 || isNaN(zivotyNepratel)) { 
+    if (zivotyNepratel <= 0 || isNaN(zivotyNepratel)) {
         AktualizujMistnost(true);
-    
+
         if (funkce.VygenerujRandomCislo(1, 3) == 2) {
-            let vydelek = funkce.VygenerujRandomCislo(penizeOdDo[0] / 2, penizeOdDo[1] / 2);
-            nastaveni.UlozitCookies("vydelek", vydelek);
+            let vydelek = funkce.VygenerujRandomCislo(Number(penizeOdDo[0]) / 2, penizeOdDo[1] / 2);
             penize += vydelek;
             vydelanychPenez += vydelek;
+            nastaveni.UlozitCookies("vydelanychPenez", vydelanychPenez);
         }
     }
 }
@@ -293,6 +308,8 @@ export function AktualizujStaty() {        //Aktualizuje staty a uloží cookies
         xp = xpNavic;
         level++;
         penize += (50 * level);
+        vydelanychPenez += (50 * level);
+        nastaveni.UlozitCookies("vydelanychPenez", vydelanychPenez);
         document.getElementById("levelLabel").innerText = level;
     }
     document.getElementById("levelProgress").value = Math.floor(xp * 2 / level);
@@ -379,9 +396,9 @@ let multiplier;
 document.getElementById("obchodButton").onclick = function () {//OBCHOD
     JdiNa(".obchod", "flex");
     multiplier = 1 + ((Math.floor(mistnostCislo / 50)) / 10);
-    document.getElementById("pivoButtonPrice").innerHTML = Math.floor(Number(10 * multiplier));
-    document.getElementById("pizzaButtonPrice").innerHTML = Math.floor(Number(20 * multiplier));
-    document.getElementById("kebabButtonPrice").innerHTML = Math.floor(Number(50 * multiplier));
+    document.getElementById("pivoButtonPrice").innerHTML = Math.floor(Number(5 * multiplier));
+    document.getElementById("pizzaButtonPrice").innerHTML = Math.floor(Number(10 * multiplier));
+    document.getElementById("kebabButtonPrice").innerHTML = Math.floor(Number(25 * multiplier));
     //seznamMistnosti.style.backgroundImage = "url(images/other/shop-pozadi.png)";
 }
 
@@ -391,22 +408,22 @@ obchodTlacitka.forEach(btn => {
     btn.addEventListener('click', function () {
 
         if (btn.id == "pivoButton") {
-            if (penize >= 10 * multiplier && energie < maxEnergie) {
-                penize -= (10 * multiplier);
+            if (penize >= 5 * multiplier && energie < maxEnergie) {
+                penize -= (5 * multiplier);
                 energie += 15;
                 if (energie > maxEnergie) energie = maxEnergie;
             }
         }
         else if (btn.id == "pizzaButton") {
-            if (penize >= 20 * multiplier && energie < maxEnergie) {
-                penize -= 20 * multiplier;
+            if (penize >= 10 * multiplier && energie < maxEnergie) {
+                penize -= 10 * multiplier;
                 energie += 35;
                 if (energie > maxEnergie) energie = maxEnergie;
             }
         }
         else if (btn.id == "kebabButton") {
-            if (penize >= 50 * multiplier && energie < maxEnergie) {
-                penize -= 50 * multiplier;
+            if (penize >= 25 * multiplier && energie < maxEnergie) {
+                penize -= 25 * multiplier;
                 energie += 100;
                 if (energie > maxEnergie) energie = maxEnergie;
             }
@@ -418,6 +435,8 @@ obchodTlacitka.forEach(btn => {
                 document.getElementById("lepsiPenezenkyButtonPrice").innerText = prices.lepsiPenezenky;
                 penizeOdDo[0] += 5;
                 penizeOdDo[1] += 5;
+                nastaveni.UlozitCookies("penizeOdDo", penizeOdDo[0] + "!" + penizeOdDo[1]);
+                nastaveni.UlozitCookies("prices", prices.vratHodnoty());
             }
         }
         else if (btn.id == "energieButton") {
@@ -428,6 +447,7 @@ obchodTlacitka.forEach(btn => {
                 document.getElementById("energieProgress").max = maxEnergie;
                 document.getElementById("energieButtonPrice").innerText = prices.energie;
                 nastaveni.UlozitCookies("maxEnergie", maxEnergie);
+                nastaveni.UlozitCookies("prices", ceny.vratHodnoty());
             }
         }
         else if (btn.id == "drogyButton") {
@@ -436,21 +456,17 @@ obchodTlacitka.forEach(btn => {
                 prices.drogy = Math.floor(prices.drogy * 1.1);
                 document.getElementById("drogyButtonPrice").innerText = prices.drogy;
                 energie = 750;
+                nastaveni.UlozitCookies("prices", ceny.vratHodnoty());
             }
         }
         else if (btn.id == "koupitZbranButton") {
-            let cenaZbrane = ((poskozeni * 300) - 150); 
+            let cenaZbrane = ((poskozeni * 300) - 150);
             if (penize >= cenaZbrane) {
                 penize -= cenaZbrane;
                 poskozeni++;
                 cenaZbrane = ((poskozeni * 300) - 150);
-                if (poskozeni<zbrane.length) {
-                document.getElementById("nazevZbraneLabel").innerText=zbrane[poskozeni];
-                document.getElementById("zbranCenaLabel").innerText=cenaZbrane;
-                }
-                else {
-                    document.getElementById("koupitZbranButton").style.visibility="hidden";
-                }
+                nastaveni.UlozitCookies("poskozeni", poskozeni);
+                AktualizujZbrane();
             }
         }
 
@@ -506,6 +522,7 @@ document.getElementById("postavaButton").onclick = function () {
     document.getElementById("zabitychNepratelLabel").innerText = zabitychNepratel;
     document.getElementById("vydelanychPenezLabel").innerText = vydelanychPenez;
     document.getElementById("projetychMistnostiLabel").innerText = mistnostCislo;
+    document.getElementById("vlastnenaZbranLabel").innerText = zbrane[poskozeni - 1] + " (Poškození: " + poskozeni + ")";
 }
 /*
  ######      ######## ########  ##     ## 
@@ -547,7 +564,7 @@ document.getElementById("bytButton").onclick = function () {     //Jít do bytu
 }
 
 document.getElementById("bytButton").addEventListener("mouseover", function () {      //Najede se na byt myší, zobrazí se čas pěstování
-    if (typeof zasazenaTrava == "number" && minuty>0) {
+    if (typeof zasazenaTrava == "number" && minuty > 0) {
         document.getElementById("bytButton").innerText = minuty + ":" + sekundy;
         if (sekundy < 10) document.getElementById("bytButton").innerText = minuty + ":0" + sekundy;
         interval = setInterval(function () {
@@ -627,6 +644,18 @@ function ZacniPestovat() {
 
 document.getElementById("prodejZbraniButton").onclick = function () {
     JdiNa(".prodejnaZbrani", "flex");
+    AktualizujZbrane();
+}
+
+function AktualizujZbrane() {
+    let cenaZbrane = ((poskozeni * 300) - 150);
+    if (poskozeni < zbrane.length) {
+        document.getElementById("nazevZbraneLabel").innerText = zbrane[poskozeni];
+        document.getElementById("zbranCenaLabel").innerText = cenaZbrane;
+    }
+    else {
+        document.getElementById("koupitZbranButton").style.visibility = "hidden";
+    }
 }
 
 

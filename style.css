@@ -346,10 +346,11 @@ body {
 }
 
 .main .prodejnaZbrani button {
-  min-width: 350px;
-  max-width: -webkit-max-content;
-  max-width: -moz-max-content;
-  max-width: max-content;
+  min-width: 200px;
+  max-width: -webkit-fit-content;
+  max-width: -moz-fit-content;
+  max-width: fit-content;
+  padding: 2px 5px;
 }
 
 .informace-div {
@@ -497,8 +498,13 @@ body {
   margin: 0 auto;
 }
 
-.postava .profile p {
+.postava .profile p, .postava .profile label {
   text-align: center;
+  font-size: 24px;
+}
+
+.postava .profile label {
+  color: #ff7070;
 }
 
 .atributy {
