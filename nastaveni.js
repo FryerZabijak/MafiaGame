@@ -50,6 +50,13 @@ export function UlozitCookies(name, value) {     //Funkce na uložení cookies
     document.cookie=name+"="+value+";"//+expires+";path=/";   //Nastavení cookies
 }
 
+export function UlozitCookiesNaCas(name, value, hours) {     //Funkce na uložení cookies
+    var date = new Date();
+    date.setTime(date.getTime() + (hours*60*60*1000));    //Přidá k datu počet dní
+    let expires="expires="+date.toUTCString();  //Expires hodnota
+    document.cookie=name+"="+value+";"+expires+";path=/";   //Nastavení cookies
+}
+
 export function NactiCookies(cookieName) {     //Načtení cookies
     let hodnota;
     let cookiesky = document.cookie.split(';'); //Rozdělení cookies

@@ -55,6 +55,41 @@ const zivotyNepratelMaxLabel = document.getElementById("zivotyNepratelMax");
 const zivotyNepratelNowLabel = document.getElementById("zivotyNepratelNow");
 
 /*
+##        #######     ###    ########  ######## ########  
+##       ##     ##   ## ##   ##     ## ##       ##     ## 
+##       ##     ##  ##   ##  ##     ## ##       ##     ## 
+##       ##     ## ##     ## ##     ## ######   ########  
+##       ##     ## ######### ##     ## ##       ##   ##   
+##       ##     ## ##     ## ##     ## ##       ##    ##  
+########  #######  ##     ## ########  ######## ##     ## 
+*/
+
+var loader = document.getElementById("loader");
+
+if (nastaveni.NactiCookies("loader")) loader.style.display="none";
+
+window.addEventListener("load",function() {
+    var imgs = document.querySelectorAll(".loader-loading-img");
+    imgs.forEach(img => {
+        img.style.display="none";
+    })
+    document.getElementById("playButton").style.display="block";
+    document.querySelector(".loader-loading").style.backgroundColor="#000000";
+})
+
+document.getElementById("playButton").onclick = function() {
+    loader.style.animation="HideOpacity 3s ease-in forwards";
+    setTimeout(function() {
+    loader.style.display="none";
+    nastaveni.UlozitCookiesNaCas("loader",true,1);
+    console.log(nastaveni.NactiCookies("loader"));
+    if (isNaN(vraceneHodnoty["energie"])) {
+        tooltips.VypisZpravu("Zdarec kriminálníku", "Chceš se stát nejrespektovanějším kriminálníkem v tomto zkorumpovaném městě?<br>Tak jsi na správném místě.", "Začít", false, "images/other/uvodni-zprava.jpg", false);
+    }
+},3000);
+}
+
+/*
 ##     ## ##     ## ########  ########     ###    
 ##     ## ##     ## ##     ## ##     ##   ## ##   
 ##     ## ##     ## ##     ## ##     ##  ##   ##  
@@ -63,6 +98,7 @@ const zivotyNepratelNowLabel = document.getElementById("zivotyNepratelNow");
 ##     ## ##     ## ##     ## ##     ## ##     ## 
 ##     ##  #######  ########  ########  ##     ## 
 */
+
 document.getElementById("hudba").volume = 0.05;
 document.getElementById("hudba").currentTime = funkce.VygenerujRandomCislo(0, (41 * 60));
 document.getElementById("hudba").loop = true;
@@ -125,9 +161,7 @@ if (!isNaN(vraceneHodnoty["energie"])) {
     document.getElementById("levelLabel").innerText = level;
     document.getElementById("energieProgress").max = maxEnergie;
 }
-else {
-    tooltips.VypisZpravu("Zdarec kriminálníku", "Chceš se stát nejrespektovanějším kriminálníkem v tomto zkorumpovaném městě?<br>Tak jsi na správném místě.", "Začít", false, "images/other/uvodni-zprava.jpg", false);
-}
+
 
 function JeValidni(co) {
     return (co != null && !isNaN(co));
