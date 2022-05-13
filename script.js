@@ -310,7 +310,7 @@ export function AktualizujMistnost(rozhodnuti) {//True - Aktualizuje NOVOU míst
         let algoritmusZivotyNepratel = 1 + (Math.floor(level / 3));
 
         if (zivotyNacteny == false) {
-            zivoty = funkce.VygenerujRandomCislo(Math.round(algoritmusZivotyNepratel / 3), algoritmusZivotyNepratel);
+            zivoty = funkce.VygenerujRandomCislo(Math.ceil(algoritmusZivotyNepratel / 3), algoritmusZivotyNepratel);
         }
         zivotyNacteny = false;
         nastaveni.UlozitCookies("zivotyNepratelMax", zivoty);
