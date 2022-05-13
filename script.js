@@ -28,7 +28,7 @@ import * as ceny from "./ceny.js";
 let hlavniObrazek = document.getElementById("hlavniObrazek");
 let mistnostCislo = 1;
 let mistnost = 1;
-let penize = 20;
+let penize = 20000;
 let energie = 100;
 let level = 1;
 let xp = 0;

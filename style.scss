@@ -7,13 +7,16 @@
 
 }
 
-html {}
+html {
+
+}
 
 body {
     background-image: url("images/other/pozadi-bezbarev.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     height: 100vh;
+    background-color: #000;
 }
 
 #loader {
