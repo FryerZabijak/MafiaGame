@@ -67,15 +67,16 @@ const zivotyNepratelNowLabel = document.getElementById("zivotyNepratelNow");
 
 var loader = document.getElementById("loader");
 var zprava = false;
-if (nastaveni.NactiCookies("loader")) loader.style.display = "none";
 
-window.addEventListener("load", function () {
+window.addEventListener("DOMContentLoaded", function () {
     var imgs = document.querySelectorAll(".loader-loading-img");
     imgs.forEach(img => {
         img.style.display = "none";
     })
+    if (nastaveni.NactiCookies("loader")) loader.style.display = "none"; {
     document.getElementById("playButton").style.display = "block";
     document.querySelector(".loader-loading").style.backgroundColor = "#000000";
+    }
 })
 
 document.getElementById("playButton").onclick = function () {
@@ -597,6 +598,7 @@ document.getElementById("travaButton").onclick = function () {       //Stisknut�
         zasazenaTrava = false;                                    //Tráva pestovani je false
         document.getElementById("travaCasLabel").style.visibility = "hidden"; //Zmizne čas
         nastaveni.UlozitCookies("zasazenaTrava", zasazenaTrava);
+        document.getElementById("bytButton").classList.remove("splneno");
     }
     else if (typeof zasazenaTrava == "boolean" && zasazenaTrava == false) { //Tráva není zasazená
         zasazenaTrava = 60 * 10;                                            //10 Minut pěstování
@@ -624,6 +626,7 @@ function ZacniPestovat() {
         if (zasazenaTrava < ((60 * 10) / 2)) travaImg.src = "images/main-images/byt/trava-half.jpg";  //Pokud pěstování je v polovině, změní se obrázek na větší trávu
         if (zasazenaTrava <= 0)            //Pokud tráva dorostla
         {
+            document.getElementById("bytButton").classList.add("splneno");
             document.getElementById("travaCasLabel").innerText = "00:00";     //Čas fixně na 00:00
             travaImg.src = "images/main-images/byt/trava-full.jpg";           //Full obrázek vyrostlé trávy
             clearInterval(interval);                                        //Interval skončí
