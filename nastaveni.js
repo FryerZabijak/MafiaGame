@@ -17,15 +17,19 @@ export function NactiSave() {
         let zasazenaTrava = NactiCookies("zasazenaTrava");
 
         let vydelanychPenez = NactiCookies("vydelanychPenez");
-        console.log(document.cookie);
+
         let zabitychNepratel = NactiCookies("zabitychNepratel");
-        console.log(zabitychNepratel);
+
 
         let zivotyNepratel = NactiCookies("zivotyNepratel");
         let zivotyNepratelMax = NactiCookies("zivotyNepratelMax");
 
         let penizeOdDo = NactiCookies("penizeOdDo");
         let poskozeni = NactiCookies("poskozeni");
+
+        let boss = NactiCookies("boss");
+        let bossHPNow = NactiCookies("bossHPNow");
+        let bossCas = NactiCookies("bossCas");
 
 
         var ulozeneHodnoty = {
@@ -45,6 +49,9 @@ export function NactiSave() {
         "penizeOdDo":penizeOdDo,
         "prices":penizeOdDo,
         "poskozeni":poskozeni,
+        "boss":boss,
+        "bossHPNow":bossHPNow,
+        "bossCas":bossCas,
 
     };
         return ulozeneHodnoty;

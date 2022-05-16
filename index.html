@@ -54,9 +54,10 @@
                 <li><button id="obchodButton">Večerka</button></li>
                 <li><button id="klubButton">Klub</button></li>
                 <li><button id="postavaButton">Postava</button></li>
-                <li><button id="cernyTrhButton">Černý Trh</button></li>
-                <li><button id="prodejZbraniButton">Zbraně</button></li>
                 <li><button id="bytButton">Byt</button></li>
+                <li><button id="prodejZbraniButton">Obchod Zbraní<br>Od 3. Levelu</button></li>
+                <li><button id="cernyTrhButton">Černý Trh<br>Od 5. Levelu</button></li>
+                <li><button id="doupeButton">Doupě<br>Od 7. Levelu</button></li>
 
             </ul>
         </div>
@@ -143,9 +144,24 @@
 
             <div class="prodejnaZbrani misto">
                 <label>Prodejna Zbraní</label>
-                <img src="images/main-images/gun-shop/gun-shop-main.jpg" id="travaImg" alt="cerny trh">
+                <img src="images/main-images/gun-shop/gun-shop-main.jpg" alt="tráva v bytě">
                 <button id="koupitZbranButton" class="obchodButton"><label id="nazevZbraneLabel">Baseballová
                         Pálka</label> $<label id="zbranCenaLabel">150</label></button>
+            </div>
+
+            <div class="doupe misto">
+                <div class="bossNotReady">
+                    <label id="bossCasLabel">Boss bude ready za: 5:00</label>
+                </div>
+                <p>Boss - #<label id="bossNumberLabel">1</label></p>
+                <label id="bossNameLabel">Jackie Rozprašovač</label>
+                <img src="images/enemies/boss-1.jpg" id="bossImgBack">
+                <img src="images/enemies/boss-1.jpg" id="bossImgFront">
+                <div class="boss-hp">
+                    <p id="zivotyBossP"><label id="zivotyBossNow">75</label> / <label id="zivotyBossMax">75</label> HP</p>
+                    <progress id="zivotyBosseProgress" value="100" max="100"></progress>
+                </div>
+                <button id="utocBoss">Útoč</button>
             </div>
 
         </div>

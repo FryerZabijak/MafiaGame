@@ -9,10 +9,8 @@ export class Ceny{
         this.lepsiPenezenky = lepsiPenezenky;
     }
 
-
-}
-
-export function vratHodnoty(){
-    return drogy+"!"+energie+"!"+lepsiPenezenky;
+    vratHodnoty(){
+        return this.drogy+"!"+this.energie+"!"+this.lepsiPenezenky;
+    }
 }
 
